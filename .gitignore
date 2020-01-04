@@ -8,3 +8,10 @@ doc/api/
 
 .idea/
 *.iml
+
+out.gs
+out.js
+out.js.deps
+out.js.map
+
+test-files/

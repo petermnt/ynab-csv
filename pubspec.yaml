@@ -1,13 +1,14 @@
-name: ynab_csv_apps_script
-description: A sample command-line application.
-# version: 1.0.0
-# homepage: https://www.example.com
+name: ynab_csv
+description: Ynab CSV
 
 environment:
   sdk: '>=2.7.0 <3.0.0'
 
-#dependencies:
-#  path: ^1.6.0
+dependencies:
+  js: ^0.6.1
+  meta: ^1.1.8
+  jiffy: ^2.1.2
+  http: 0.12.0+4
 
 dev_dependencies:
   pedantic: ^1.8.0
