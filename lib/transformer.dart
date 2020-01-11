@@ -100,15 +100,38 @@ class KbcAccountTransformer with Transformer {
   static final _inputDateFormat = DateFormat('dd/MM/yyyy');
   static final _outputDateFormat = DateFormat('yyyy-MM-dd');
 
+  // named groups are not supported in google apps script, so using named groups instead
   static final _payeeMemoRegexps = [
-    RegExp(
-      r'(?:CREDITOR|SCHULDEISER)[ :]*(?<payee>.*) (?:CREDITOR|SCHULDEISER).*(?:MEDEDELING|REFERENCE)[ :]*(?<memo>.*)',
+    PayeeMemoRegex(
+      RegExp(r'(CREDITOR|SCHULDEISER)[ :]*(.*) (CREDITOR|SCHULDEISER).*(MEDEDELING|REFERENCE)[ :]*(.*)'),
+      payee: 2,
+      memo: 5,
     ),
-    RegExp(r'(?:TIME|UUR), (?<payee>.*) (?:MET KBC|WITH KBC).*?[X \d]{4,}(?<memo>.*)'),
-    RegExp(r'(?<memo>(?:CHARGE|BIJDRAGE) [\d-]{10}.*[\d-]{10}).*(?<payee>KBC.*?) (?:PART|GEDEELTE)'),
-    RegExp(r'(?<memo>.*?)[ ]*\d{2}-\d{2} (?<payee>.*\d{3}-\d{7}-\d{2})'),
-    RegExp(r'(?<payee>CASH WITHDRAWAL|GELDOPNEMING).*\d{2}-\d{2}(?<memo>.*)'),
-    RegExp(r'(?<payee>MOBILE PAYMENT|MOBIELE BETALING).*(?<memo>(?:DATE|DATUM).*)'),
+    PayeeMemoRegex(
+      RegExp(r'(TIME|UUR), (.*) (MET KBC|WITH KBC).*?[X \d]{4,}(.*)'),
+      payee: 2,
+      memo: 4,
+    ),
+    PayeeMemoRegex(
+      RegExp(r'((CHARGE|BIJDRAGE) [\d-]{10}.*[\d-]{10}).*(KBC.*?) (PART|GEDEELTE)'),
+      payee: 3,
+      memo: 1,
+    ),
+    PayeeMemoRegex(
+      RegExp(r'(.*?)[ ]*\d{2}-\d{2} (.*\d{3}-\d{7}-\d{2})'),
+      payee: 2,
+      memo: 1,
+    ),
+    PayeeMemoRegex(
+      RegExp(r'(CASH WITHDRAWAL|GELDOPNEMING).*\d{2}-\d{2}(.*)'),
+      payee: 1,
+      memo: 2,
+    ),
+    PayeeMemoRegex(
+      RegExp(r'(MOBILE PAYMENT|MOBIELE BETALING).*((DATE|DATUM).*)'),
+      payee: 1,
+      memo: 2,
+    ),
   ];
 
   final Map<String, String> accounts;
@@ -172,15 +195,23 @@ class KbcAccountTransformer with Transformer {
       return PayeeMemo(payee: originalPayee, memo: originalMemo);
     }
 
-    for (final regExp in _payeeMemoRegexps) {
-      final match = regExp.firstMatch(originalDescription);
+    for (final regexConf in _payeeMemoRegexps) {
+      final match = regexConf.regex.firstMatch(originalDescription);
       if (match != null) {
-        return PayeeMemo(payee: match.namedGroup('payee'), memo: match.namedGroup('memo'));
+        return PayeeMemo(payee: match.group(regexConf.payee), memo: match.group(regexConf.memo));
       }
     }
 
     return PayeeMemo(payee: originalDescription, memo: originalMemo);
   }
+}
+
+class PayeeMemoRegex {
+  final RegExp regex;
+  final int payee;
+  final int memo;
+
+  PayeeMemoRegex(this.regex, {this.payee, this.memo});
 }
 
 class PayeeMemo {
