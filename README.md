@@ -29,8 +29,7 @@ function run() {
                 "612344XXXXXX9876": "d177c003-8670-466b-9aaf-11220e10611e",
             },
             driveFolder: "drive-folder-id",
-            accessToken: "ynab-access-token",
-            dryRun: false
+            accessToken: "ynab-access-token"
         }
     );
   } catch (e) {
@@ -42,6 +41,10 @@ function run() {
 
 # Native
 ## Compile executable
+```shell script
+dart2native bin/native_app.dart -k exe -o ynab2csv
+dart2native bin/native_app.dart -k aot -o ynab2csv.aot
+``` 
 
 ## Usage
 ### Create config file
