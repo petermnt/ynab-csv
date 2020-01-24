@@ -13,8 +13,8 @@ class YnabApiTransaction {
         'account_id': accountId,
         'date': date,
         'amount': amount,
-        'payee_name': payeeName,
-        'memo': memo,
+        'payee_name': payeeName.trim().substring(0, 100),
+        'memo': memo.trim(),
         'cleared': cleared,
         'import_id': importId,
       };

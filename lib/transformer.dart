@@ -132,6 +132,16 @@ class KbcAccountTransformer with Transformer {
       payee: 1,
       memo: 2,
     ),
+    PayeeMemoRegex(
+      RegExp(r'(.* LEASING).*\d{2}-\d{2} (.*)'),
+      payee: 1,
+      memo: 2,
+    ),
+    PayeeMemoRegex(
+      RegExp(r'(AFREKENING|SETTLEMENT).*(KBC.*)((UITGAVENSTAAT|BILLING STATEMENT) \d*) (.*)'),
+      payee: 5,
+      memo: 3,
+    ),
   ];
 
   final Map<String, String> accounts;
