@@ -32,12 +32,11 @@ class GoogleAppsCrypto with Crypto {
     return Utilities.base64Encode(Utilities.computeDigest(Utilities.SHA1, input));
   }
 }
-//   const bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_1, input)
-//  return Utilities.base64Encode(bytes)
 
 @JS()
 class Utilities {
   @JS('DigestAlgorithm.SHA_1')
+  // ignore: always_declare_return_types
   external static get SHA1;
 
   external static List<int> computeDigest(algorithm, value);

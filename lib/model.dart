@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:meta/meta.dart';
 
 class YnabApiTransaction {
@@ -13,7 +15,7 @@ class YnabApiTransaction {
         'account_id': accountId,
         'date': date,
         'amount': amount,
-        'payee_name': payeeName.trim().substring(0, 100),
+        'payee_name': payeeName.trim().substring(0, min(100, payeeName.trim().length)),
         'memo': memo.trim(),
         'cleared': cleared,
         'import_id': importId,

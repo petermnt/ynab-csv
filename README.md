@@ -42,8 +42,8 @@ function run() {
 # Native
 ## Compile executable
 ```shell script
-dart2native bin/native_app.dart -k exe -o ynab2csv
-dart2native bin/native_app.dart -k aot -o ynab2csv.aot
+dart2native bin/native_app.dart -k exe -o csv2ynab
+dart2native bin/native_app.dart -k aot -o csv2ynab.aot
 ``` 
 
 ## Usage
