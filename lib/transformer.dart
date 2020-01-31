@@ -108,9 +108,9 @@ class KbcAccountTransformer with Transformer {
       memo: 5,
     ),
     PayeeMemoRegex(
-      RegExp(r'(TIME|UUR), (.*) (MET KBC|WITH KBC).*?[X \d]{4,}(.*)'),
-      payee: 2,
-      memo: 4,
+      RegExp(r'(\d{2}.\d{2}) (TIME|UUR), (.*) (MET KBC|WITH KBC)'),
+      payee: 3,
+      memo: 1,
     ),
     PayeeMemoRegex(
       RegExp(r'((CHARGE|BIJDRAGE) [\d-]{10}.*[\d-]{10}).*(KBC.*?) (PART|GEDEELTE)'),
