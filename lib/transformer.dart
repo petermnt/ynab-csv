@@ -13,8 +13,17 @@ mixin Transformer {
   YnabApiTransaction from(List<String> list);
 
   String _createImportId(List<String> list) {
-    return crypto.sha1AsBase64(list.where((it) => it.isNotNullOrBlank()).join());
+    final importId = list
+        .where((it) => it.isNotNullOrBlank())
+        .toList()
+        .asMap()
+        .map((index, input) => MapEntry(index, sanitizeImportField(index, input)))
+        .values
+        .join();
+    return crypto.sha1AsBase64(importId);
   }
+
+  String sanitizeImportField(int column, String value);
 }
 
 class RevolutTransformer with Transformer {
@@ -80,6 +89,11 @@ class RevolutTransformer with Transformer {
     }
 
     return _outputDateFormat.format(DateTime(year, formatted.month, formatted.day));
+  }
+
+  @override
+  String sanitizeImportField(int column, String value) {
+    return value;
   }
 }
 
@@ -214,6 +228,21 @@ class KbcAccountTransformer with Transformer {
 
     return PayeeMemo(payee: originalDescription, memo: originalMemo);
   }
+
+  static final removeExtraDateRegexp = RegExp(r' \d{2}-\d{2} ');
+  static final removeExtraCharactersRegexp = RegExp(r'[^A-Za-z0-9-\/,\.]');
+
+  @override
+  String sanitizeImportField(int column, String value) {
+    switch (KbcAccountColumn.values[column]) {
+      case KbcAccountColumn.statementNumber:
+        return '';
+      case KbcAccountColumn.description:
+        return value.replaceAll(removeExtraDateRegexp, '').replaceAll(removeExtraCharactersRegexp, '');
+      default:
+        return value.replaceAll(' ', '');
+    }
+  }
 }
 
 class PayeeMemoRegex {
@@ -315,6 +344,11 @@ class KbcCreditCardTransformer with Transformer {
   String _createDate(String dateString) {
     final formatted = _inputDateFormat.parse(dateString);
     return _outputDateFormat.format(DateTime(formatted.year, formatted.month, formatted.day));
+  }
+
+  @override
+  String sanitizeImportField(int column, String value) {
+    return value;
   }
 }
 

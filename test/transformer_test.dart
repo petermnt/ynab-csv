@@ -147,8 +147,7 @@ void main() {
           payeeName: 'Counterparty',
           date: '2020-01-08',
           memo: 'Memo',
-          importId:
-              'BE12 3456 7890 1234TWINMPEUR202000608/01/2020Description09/01/2020-0,851199,54-0,85CounterpartyMemo',
+          importId: 'BE12345678901234TWINMPEUR08/01/2020Description09/01/2020-0,851199,54-0,85CounterpartyMemo',
           cleared: 'cleared',
         ),
       );
