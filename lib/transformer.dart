@@ -32,7 +32,7 @@ class RevolutTransformer with Transformer {
   @override
   final Crypto crypto;
 
-  static final _inputDateFormatWithoutYear = DateFormat('d MMMM');
+  static final _inputDateFormatWithoutYear = DateFormat('d MMM');
   static final _inputDateFormatWithYear = DateFormat('d MMMM yyyy');
   static final _outputDateFormat = DateFormat('yyyy-MM-dd');
   static final _yearInFilenameRegex = RegExp(r'\d{4}');
