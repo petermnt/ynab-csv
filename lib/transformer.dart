@@ -122,7 +122,7 @@ class KbcAccountTransformer with Transformer {
       memo: 5,
     ),
     PayeeMemoRegex(
-      RegExp(r'(\d{2}.\d{2}) (TIME|UUR), (.*) (MET KBC|WITH KBC)'),
+      RegExp(r'(\d{2}.\d{2}) (TIME|UUR),? (.*) (MET KBC|WITH KBC)'),
       payee: 3,
       memo: 1,
     ),
