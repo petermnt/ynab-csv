@@ -327,8 +327,8 @@ class KbcCreditCardTransformer with Transformer {
     return YnabApiTransaction(
       accountId: account,
       amount: _createAmount(list[KbcCCColumn.amountInEUR.index]),
-      payeeName: list[KbcCCColumn.merchant.index],
-      memo: list[KbcCCColumn.explanation.index],
+      payeeName: list[KbcCCColumn.merchant.index].split('/').first,
+      memo: list[KbcCCColumn.explanation.index].split('-').sublist(1).join('-'),
       date: _createDate(list[KbcCCColumn.transactionDate.index]),
       importId: _createImportId(list),
       cleared: 'cleared',
