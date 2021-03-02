@@ -1,17 +1,24 @@
 var config;
+var file;
 
 function update(configInput) {
     config = configInput;
+    Logger.log(config);
 
-    const folder = DriveApp.getFolderById(config.driveFolder);
+    const folder = config.driveFolder;
     const files = folder.getFiles();
 
     while (files.hasNext()) {
-        const file = files.next();
+        file = files.next();
         const rawCSVString = file.getBlob().getDataAsString();
 
         create(JSON.stringify(config.accounts), file.getName(), rawCSVString);
     }
+}
+
+function updateWithFile(configInput) {
+  config = configInput;
+  create(JSON.stringify(config.accounts), config.fileName, config.csv);
 }
 
 function doCall(data) {
@@ -25,6 +32,11 @@ function doCall(data) {
         "payload": data
     };
     UrlFetchApp.fetch(url, properties);
+
     Logger.log("Added transactions");
-    file.setTrashed(true);
+
+    if (file != null) {
+        Logger.log("Removing " + file.getName());
+        file.setTrashed(true);
+    }
 }
