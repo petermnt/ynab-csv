@@ -114,7 +114,7 @@ class KbcAccountTransformer with Transformer {
   static final _inputDateFormat = DateFormat('dd/MM/yyyy');
   static final _outputDateFormat = DateFormat('yyyy-MM-dd');
 
-  // named groups are not supported in google apps script, so using named groups instead
+  // named groups are not supported in google apps script, so using numbered groups instead
   static final _payeeMemoRegexps = [
     PayeeMemoRegex(
       RegExp(r'(CREDITOR|SCHULDEISER)[ :]*(.*) (CREDITOR|SCHULDEISER).*(MEDEDELING|REFERENCE)[ :]*(.*)'),
@@ -122,7 +122,7 @@ class KbcAccountTransformer with Transformer {
       memo: 5,
     ),
     PayeeMemoRegex(
-      RegExp(r'(\d{2}.\d{2}) (TIME|UUR),? (.*) (MET KBC|WITH KBC)'),
+      RegExp(r'(\d{2}.\d{2}) (TIME|UUR),? (.*) (MET|WITH)'),
       payee: 3,
       memo: 1,
     ),
